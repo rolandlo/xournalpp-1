@@ -1,10 +1,14 @@
 name: xournalpp
 adopt-info: xournalpp
-icon: snap/gui/com.github.xournalpp.xournalpp.svg
-
 grade: stable
 confinement: strict
 base: core22
+contact: https://github.com/kenvandine/xournalpp/issues
+issues: https://github.com/xournalpp/xournalpp/issues
+website: https://xournalpp.github.io/
+license: GPL-2
+icon: snap/gui/com.github.xournalpp.xournalpp.svg
+
 architectures:
   - build-on: amd64
   - build-on: arm64
