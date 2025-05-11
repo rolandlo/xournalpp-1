@@ -2,15 +2,14 @@ name: xournalpp
 adopt-info: xournalpp
 grade: stable
 confinement: strict
-base: core22
+base: core24
 contact: https://github.com/kenvandine/xournalpp/issues
 issues: https://github.com/xournalpp/xournalpp/issues
 website: https://xournalpp.github.io/
 icon: snap/gui/com.github.xournalpp.xournalpp.svg
-
-architectures:
-  - build-on: amd64
-  - build-on: arm64
+platforms:
+  amd64:
+  arm64:
 
 slots:
   dbus-xournalpp:
@@ -19,8 +18,8 @@ slots:
     name: com.github.xournalpp.xournalpp
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET/alsa-lib:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib
   /etc/asound.conf:
     bind-file: $SNAP/etc/asound.conf
   /usr/share/alsa/alsa.conf:
@@ -99,7 +98,7 @@ parts:
       - libxrender1
       - libvorbisenc2
       - libvorbis0a
-      - libtiff5
+      - libtiff6
       - libthai0
       - libsndfile1
       - libportaudio2
@@ -113,9 +112,9 @@ parts:
       - libjpeg-turbo8
       - libjbig0
       - libjack-jackd2-0
-      - libicu70
+      - libicu74
       - libgraphite2-3
-      - libflac8
+      - libflac++10
       - libdatrie1
       - libxi6
       - lua-lgi
@@ -123,6 +122,7 @@ parts:
     override-build: |
       craftctl default
       sed -i 's|Icon=com.github.xournalpp.xournalpp|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg|' ${CRAFT_PART_INSTALL}/usr/share/applications/com.github.xournalpp.xournalpp.desktop
+      rm -f $CRAFT_PART_INSTALL/usr/lib/*/libasound*
 
   tinytex:    # this is based on TinyTeX, available on https://github.com/yihui/tinytex
     plugin: nil
@@ -152,9 +152,9 @@ parts:
   cleanup:
     after: [xournalpp]
     plugin: nil
-    build-snaps: [core22, gnome-42-2204]
+    build-snaps: [core24, gnome-46-2404]
     override-prime: |
       set -eux
-      for snap in "core22" "gnome-42-2204"; do
+      for snap in "core24" "gnome-46-2404"; do
         cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
       done
