@@ -114,7 +114,7 @@ parts:
       - libjack-jackd2-0
       - libicu74
       - libgraphite2-3
-      - libflac++10
+      - libflac12t64
       - libdatrie1
       - libxi6
       - lua-lgi
