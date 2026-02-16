@@ -2,15 +2,15 @@ name: xournalpp
 adopt-info: xournalpp
 grade: stable
 confinement: strict
-base: core22
+base: core24
 contact: https://github.com/kenvandine/xournalpp/issues
 issues: https://github.com/xournalpp/xournalpp/issues
 website: https://xournalpp.github.io/
+source-code: https://github.com/xournalpp/xournalpp.git
 icon: snap/gui/com.github.xournalpp.xournalpp.svg
-
-architectures:
-  - build-on: amd64
-  - build-on: arm64
+platforms:
+  amd64:
+  arm64:
 
 slots:
   dbus-xournalpp:
@@ -19,8 +19,8 @@ slots:
     name: com.github.xournalpp.xournalpp
 
 layout:
-  /usr/lib/$CRAFT_ARCH_TRIPLET/alsa-lib:
-    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET/alsa-lib
+  /usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib:
+    bind: $SNAP/usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/alsa-lib
   /etc/asound.conf:
     bind-file: $SNAP/etc/asound.conf
   /usr/share/alsa/alsa.conf:
@@ -38,8 +38,8 @@ apps:
       PATH: $PATH:$SNAP/usr/bin:$SNAP/bin:$SNAP/usr/share/.TinyTeX/bin/x86_64-linux:$SNAP/usr/share/.TinyTeX/bin/aarch64-linux
       TEXTDOMAINDIR: $SNAP/usr/share/locale
       # Make the bundled lua-lgi work
-      LUA_PATH: $SNAP/usr/share/lua/5.3/?.lua
-      LUA_CPATH: $SNAP/usr/lib/x86_64-linux-gnu/lua/5.3/?.so;$SNAP/usr/lib/aarch64-linux-gnu/lua/5.3/?.so
+      LUA_PATH: $SNAP/usr/share/lua/5.4/?.lua
+      LUA_CPATH: $SNAP/usr/lib/x86_64-linux-gnu/lua/5.4/?.so;$SNAP/usr/lib/aarch64-linux-gnu/lua/5.4/?.so
       TEXMFVAR: $SNAP_USER_COMMON/.cache/texmf-var  # The default is not a writeable directory
 
     plugs:
@@ -80,7 +80,7 @@ parts:
     after: [alsa]
     plugin: cmake
     source: https://github.com/xournalpp/xournalpp.git
-    source-tag: v1.2.7
+    source-tag: v1.3.2
     cmake-parameters:
       - "-DCMAKE_INSTALL_PREFIX=/usr"
     parse-info: [usr/share/metainfo/com.github.xournalpp.xournalpp.appdata.xml]
@@ -89,17 +89,20 @@ parts:
     build-packages:
       - portaudio19-dev
       - libsndfile-dev
-      - liblua5.3-dev
+      - liblua5.4-dev
       - libzip-dev
       - dvipng
       - libgtksourceview-4-dev
+      - libqpdf-dev
+      - lsb-release
+      - help2man
     stage-packages:
       - binutils
       - libzip4
       - libxrender1
       - libvorbisenc2
       - libvorbis0a
-      - libtiff5
+      - libtiff6
       - libthai0
       - libsndfile1
       - libportaudio2
@@ -108,21 +111,23 @@ parts:
       - libogg0
       - libnss3
       - libnspr4
-      - liblua5.3-0
+      - liblua5.4-0
       - liblcms2-2
       - libjpeg-turbo8
       - libjbig0
       - libjack-jackd2-0
-      - libicu70
+      - libicu74
       - libgraphite2-3
-      - libflac8
+      - libflac12t64
       - libdatrie1
       - libxi6
       - lua-lgi
       - libgtksourceview-4-0
+      - libqpdf29t64
     override-build: |
       craftctl default
       sed -i 's|Icon=com.github.xournalpp.xournalpp|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg|' ${CRAFT_PART_INSTALL}/usr/share/applications/com.github.xournalpp.xournalpp.desktop
+      rm -f $CRAFT_PART_INSTALL/usr/lib/*/libasound*
 
   tinytex:    # this is based on TinyTeX, available on https://github.com/yihui/tinytex
     plugin: nil
@@ -152,9 +157,9 @@ parts:
   cleanup:
     after: [xournalpp]
     plugin: nil
-    build-snaps: [core22, gnome-42-2204]
+    build-snaps: [core24, gnome-46-2404]
     override-prime: |
       set -eux
-      for snap in "core22" "gnome-42-2204"; do
+      for snap in "core24" "gnome-46-2404"; do
         cd "/snap/$snap/current" && find . -type f,l -name *.so.* -exec rm -f "$CRAFT_PRIME/{}" \;
       done
