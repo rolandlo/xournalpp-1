@@ -6,6 +6,7 @@ base: core24
 contact: https://github.com/kenvandine/xournalpp/issues
 issues: https://github.com/xournalpp/xournalpp/issues
 website: https://xournalpp.github.io/
+source-code: https://github.com/xournalpp/xournalpp.git
 icon: snap/gui/com.github.xournalpp.xournalpp.svg
 platforms:
   amd64:
@@ -94,6 +95,7 @@ parts:
       - libgtksourceview-4-dev
       - libqpdf-dev
       - lsb-release
+      - help2man
     stage-packages:
       - binutils
       - libzip4
@@ -121,7 +123,7 @@ parts:
       - libxi6
       - lua-lgi
       - libgtksourceview-4-0
-      - libqpdf28
+      - libqpdf29t64
     override-build: |
       craftctl default
       sed -i 's|Icon=com.github.xournalpp.xournalpp|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg|' ${CRAFT_PART_INSTALL}/usr/share/applications/com.github.xournalpp.xournalpp.desktop
