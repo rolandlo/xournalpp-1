@@ -38,8 +38,8 @@ apps:
       PATH: $PATH:$SNAP/usr/bin:$SNAP/bin:$SNAP/usr/share/.TinyTeX/bin/x86_64-linux:$SNAP/usr/share/.TinyTeX/bin/aarch64-linux
       TEXTDOMAINDIR: $SNAP/usr/share/locale
       # Make the bundled lua-lgi work
-      LUA_PATH: $SNAP/usr/share/lua/5.3/?.lua
-      LUA_CPATH: $SNAP/usr/lib/x86_64-linux-gnu/lua/5.3/?.so;$SNAP/usr/lib/aarch64-linux-gnu/lua/5.3/?.so
+      LUA_PATH: $SNAP/usr/share/lua/5.4/?.lua
+      LUA_CPATH: $SNAP/usr/lib/x86_64-linux-gnu/lua/5.4/?.so;$SNAP/usr/lib/aarch64-linux-gnu/lua/5.4/?.so
       TEXMFVAR: $SNAP_USER_COMMON/.cache/texmf-var  # The default is not a writeable directory
 
     plugs:
@@ -80,7 +80,7 @@ parts:
     after: [alsa]
     plugin: cmake
     source: https://github.com/xournalpp/xournalpp.git
-    source-tag: v1.2.7
+    source-tag: v1.3.0
     cmake-parameters:
       - "-DCMAKE_INSTALL_PREFIX=/usr"
     parse-info: [usr/share/metainfo/com.github.xournalpp.xournalpp.appdata.xml]
@@ -89,10 +89,12 @@ parts:
     build-packages:
       - portaudio19-dev
       - libsndfile-dev
-      - liblua5.3-dev
+      - liblua5.4-dev
       - libzip-dev
       - dvipng
       - libgtksourceview-4-dev
+      - libqpdf-dev
+      - lsb-release
     stage-packages:
       - binutils
       - libzip4
@@ -108,7 +110,7 @@ parts:
       - libogg0
       - libnss3
       - libnspr4
-      - liblua5.3-0
+      - liblua5.4-0
       - liblcms2-2
       - libjpeg-turbo8
       - libjbig0
@@ -120,6 +122,7 @@ parts:
       - libxi6
       - lua-lgi
       - libgtksourceview-4-0
+      - libqpdf28
     override-build: |
       craftctl default
       sed -i 's|Icon=com.github.xournalpp.xournalpp|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/com.github.xournalpp.xournalpp.svg|' ${CRAFT_PART_INSTALL}/usr/share/applications/com.github.xournalpp.xournalpp.desktop
