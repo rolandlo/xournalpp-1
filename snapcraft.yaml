@@ -76,8 +76,20 @@ parts:
     stage-packages:
       - libasound2
       - libasound2-plugins
+
+  lua-gobject:
+    source: https://github.com/vtrlx/LuaGObject.git
+    source-tag: 0.10.5
+    plugin: meson
+    meson-parameters:
+      - --prefix=/usr
+      - -Dlua-bin=lua5.4
+    build-packages:
+      - liblua5.4-dev
+      - lua5.4
+
   xournalpp:
-    after: [alsa]
+    after: [alsa, lua-gobject]
     plugin: cmake
     source: https://github.com/xournalpp/xournalpp.git
     source-tag: v1.3.2
@@ -121,7 +133,6 @@ parts:
       - libflac12t64
       - libdatrie1
       - libxi6
-      - lua-lgi
       - libgtksourceview-4-0
       - libqpdf29t64
     override-build: |
