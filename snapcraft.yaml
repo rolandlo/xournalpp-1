@@ -79,7 +79,7 @@ parts:
 
   lua-gobject:
     source: https://github.com/vtrlx/LuaGObject.git
-    source-tag: v1.3.3
+    source-tag: v1.3.4
     plugin: meson
     meson-parameters:
       - --prefix=/usr
@@ -92,7 +92,7 @@ parts:
     after: [alsa, lua-gobject]
     plugin: cmake
     source: https://github.com/xournalpp/xournalpp.git
-    source-tag: v1.3.3
+    source-tag: v1.3.4
     cmake-parameters:
       - "-DCMAKE_INSTALL_PREFIX=/usr"
     parse-info: [usr/share/metainfo/com.github.xournalpp.xournalpp.appdata.xml]
