@@ -79,7 +79,7 @@ parts:
 
   lua-gobject:
     source: https://github.com/vtrlx/LuaGObject.git
-    source-tag: v1.3.4
+    source-tag: 0.10.5
     plugin: meson
     meson-parameters:
       - --prefix=/usr

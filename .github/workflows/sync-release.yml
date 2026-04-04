@@ -21,7 +21,7 @@ jobs:
             jq .  | grep name | grep -v beta | grep -v rc | head -n 1 | cut -d'"' -f4
           )
           if [ ${#VERSION} -gt 0 ]; then
-            sed -i 's/\(source-tag: \).*$/\1'"$VERSION"'/' snapcraft.yaml
+            sed -i '/^parts:/,/^[^ ]/ { /^  xournalpp:$/,/source-tag:/ s/^\( *source-tag: \).*/\1'"$VERSION"'/ }' snapcraft.yaml
           fi
           
       - name: Check for modified files
